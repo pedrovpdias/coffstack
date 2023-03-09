@@ -1,9 +1,39 @@
-import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
+import { useDispatch } from 'react-redux';
+import { increment, incrementAmount } from './features/counter/counter-slice';
+
+import { useAppSelector } from './hooks';
+
+//REDUX OLD
+// import { connect } from 'react-redux';
+// function App( { count, increment, incrementAmount } ) {
+// function App( { increment, incrementAmount } ) {
 
 function App() {
-  const [count, setCount] = useState(0)
+  const count = useAppSelector(state => state.counter.value);
+  const dispatch = useDispatch();
+
+  function handleOnClick() {
+    //REDUX OLD
+    // increment();
+    // dispatch({
+    //   type: 'counter/increment'
+    // })
+
+    dispatch(increment());
+  }
+
+  function handleOnClickAmount() {
+    //REDUX OLD
+    // incrementAmount(5);
+    // dispatch({
+    //   type: 'counter/incrementAmount',
+    //   payload: 5
+    // })
+
+    dispatch(incrementAmount(5));
+  }
 
   return (
     <div className="App">
@@ -17,8 +47,11 @@ function App() {
       </div>
       <h1>Vite + React</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
+        <button onClick={handleOnClick} >
           count is {count}
+        </button>
+        <button onClick={handleOnClickAmount}>
+          Increment Amount
         </button>
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
@@ -31,4 +64,24 @@ function App() {
   )
 }
 
-export default App
+export default App;
+
+//Redux OLD
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     increment: () => {
+//       dispatch( { type: 'counter/increment' } )
+//     },
+//     incrementAmount: (amount) => dispatch( {
+//       type: 'counter/incrementAmount' ,
+//       payload: amount
+//     } )
+//   };
+// }
+
+// const mapStateToProps = (state) => {
+//   return {
+//     count: state.counter.value
+//   }
+// }
+// export default connect(mapStateToProps, mapDispatchToProps)(App);
